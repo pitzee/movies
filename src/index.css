@@ -1,1 +1,8 @@
 @import "tailwindcss";
+
+.bg-blueblack {
+  background-color: #1a1c2c;
+}
+.text-blueblack {
+  color: #1a1c2c;
+}
