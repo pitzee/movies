@@ -25,15 +25,23 @@ interface FetchMoviesResponse {
 const useMovies = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [error, setError] = useState("");
+  const [isLoading, setIloading] = useState(false);
 
   useEffect(() => {
+    setIloading(true);
     apiClient
       .get<FetchMoviesResponse>("/popular")
-      .then((res) => setMovies(res.data.results))
-      .catch((err) => setError(err.message));
+      .then((res) => {
+        setMovies(res.data.results);
+        setIloading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setIloading(false);
+      });
   }, []);
 
-  return { movies, error };
+  return { movies, error, isLoading };
 };
 
 export default useMovies;
