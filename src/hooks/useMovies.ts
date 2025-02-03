@@ -30,7 +30,7 @@ const useMovies = () => {
   useEffect(() => {
     setIloading(true);
     apiClient
-      .get<FetchMoviesResponse>("/popular")
+      .get<FetchMoviesResponse>("/movie/popular")
       .then((res) => {
         setMovies(res.data.results);
         setIloading(false);

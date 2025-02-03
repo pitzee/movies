@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL: "https://api.themoviedb.org/3/movie",
+  baseURL: "https://api.themoviedb.org/3",
   params: {
     key: "5469cec0820d4e72fd63a0052899d17e",
   },
