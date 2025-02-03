@@ -1,6 +1,7 @@
 import moment from "moment";
 
 import useTrendingMovies from "../hooks/useTrendingMovies";
+import { TrendingMoviesSkeleton } from "./TrendingMoviesSkeleton";
 
 
 
@@ -10,7 +11,7 @@ const TrendingMoviesCard = () => {
   return (
     
   <>
-   {isLoading && <p>loading </p>}
+   {isLoading && <TrendingMoviesSkeleton />}
    {error && <p>{error}</p>}
           <div className="flex flex-row gap-4 overflow-x-auto overflow-y-hidden ">
             {trendingMovies.map((movie) => (

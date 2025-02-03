@@ -11,6 +11,7 @@ const App = () => {
       <Search />
       <TrendingMovies />
       <Movies />
+      
     </main>
   );
 };
