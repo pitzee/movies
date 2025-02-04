@@ -1,5 +1,7 @@
 import { FaSearch } from "react-icons/fa";
 
+
+
 const Search = () => {
   return (
     <div className="flex flex-row items-center  space-x-3 pl-10 pt-2">
