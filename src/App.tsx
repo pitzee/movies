@@ -1,3 +1,4 @@
+import Herosection from "./components/Herosection";
 import Movies from "./components/Movies";
 import Navbar from "./components/Navbar";
 import Search from "./components/Search";
@@ -9,6 +10,7 @@ const App = () => {
     <main>
       <Navbar />
       <Search />
+      <Herosection />
       <TrendingMovies />
       <Movies />
       
