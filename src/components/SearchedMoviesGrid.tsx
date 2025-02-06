@@ -8,7 +8,7 @@ const SearchedMoviesGrid = () => {
     <>
       {isLoading && <p>loading</p>}
       {error && <p>{error}</p>}
-      <div className="flex-grow grid grid-cols-1 lg:grid-cols-5 md:grid-cols-3 gap-4 ml-5">
+      <div className="flex-grow grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-4 ml-5">
         {searchedMovies.map((movie) => (
           <div key={movie.id}>
             <div className="flex flex-row h-60 w-44 rounded-xl">

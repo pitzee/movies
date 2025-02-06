@@ -11,7 +11,6 @@ const App = () => {
       <Navbar />
       <Search />
       <Herosection />
-      <SearchedMovies />
       <TrendingMovies />
       <Movies />
     </main>
