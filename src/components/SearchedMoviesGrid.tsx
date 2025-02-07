@@ -1,14 +1,20 @@
 import moment from "moment";
 import useSearchMovies from "../hooks/useSearchMovies";
+import LoadingSpinner from "./LoadingSpinner";
 
 const SearchedMoviesGrid = () => {
   const { searchedMovies, error, isLoading } = useSearchMovies();
 
   return (
     <>
-      {isLoading && <p>loading</p>}
+      {isLoading && (
+        <div className="flex flex-row gap-5">
+          <p className="font-extrabold">loading</p>
+          <LoadingSpinner />
+        </div>
+      )}
       {error && <p>{error}</p>}
-      <div className="flex-grow grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-4 ml-5">
+      <div className="flex-grow grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-4 ml-5 mt-2">
         {searchedMovies.map((movie) => (
           <div key={movie.id}>
             <div className="flex flex-row h-60 w-44 rounded-xl">

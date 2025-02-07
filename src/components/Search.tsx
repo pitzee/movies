@@ -11,8 +11,8 @@ const Search = () => {
   };
 
   const handleSearchClick = () => {
-    navigate("/search")
-  }
+    navigate("/search");
+  };
 
   return (
     <div className="flex flex-row items-center  space-x-3 pl-10 pt-2">
@@ -24,7 +24,10 @@ const Search = () => {
         value={searchText}
         onChange={handleInputChange}
       />
-      <button onClick={handleSearchClick} className="border rounded mr-5 pl-1 pr-1 bg-blue-800 text-white font-bold hover:bg-green-600">
+      <button
+        onClick={handleSearchClick}
+        className="border rounded mr-5 pl-1 pr-1 bg-blue-800 text-white font-bold hover:bg-green-600"
+      >
         search
       </button>
     </div>
