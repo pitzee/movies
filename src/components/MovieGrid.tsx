@@ -2,7 +2,7 @@ import moment from "moment";
 import useMovies from "../hooks/useMovies";
 import MoviesSkeleton from "./MoviesSkeleton";
 import { useState } from "react";
-import { IoMdClose } from "react-icons/io";
+import MoviesOverview from "./MoviesOverview";
 
 const MovieGrid = () => {
   const { movies, error, isLoading } = useMovies();
@@ -11,6 +11,10 @@ const MovieGrid = () => {
 
   const HandleClick = (movieId: number) => {
     setId(movieId);
+  };
+
+  const CloseOverview = () => {
+    setId(0);
   };
 
   return (
@@ -39,19 +43,12 @@ const MovieGrid = () => {
               </p>
             </div>
             {id == movie.id && (
-              <div className="fixed inset-0 flex flex-col lg:flex-row lg:items-center lg:justify-center bg-black bg-opacity-50 z-50 p-4 gap-4">
-                <IoMdClose
-                  className="text-white text-2xl absolute top-4 right-4 z-60 cursor-pointer"
-                  onClick={() => setId(0)}
-                />
-                )
-                <img
-                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path} `}
-                  alt=""
-                  className="w-52 h-auto mx-auto lg:w-64 lg:mx-0"
-                />
-                <p className="text-white">{movie.overview}</p>
-              </div>
+              <MoviesOverview
+                onCloseOverView={CloseOverview}
+                overview={movie.overview}
+                image={movie.poster_path}
+                id={movie.id}
+              />
             )}
           </div>
         ))}
