@@ -9,8 +9,6 @@ const MovieGrid = () => {
 
   const [id, setId] = useState(0);
 
-  console.log(id);
-
   const HandleClick = (movieId: number) => {
     setId(movieId);
   };
