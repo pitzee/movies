@@ -2,9 +2,21 @@ import moment from "moment";
 
 import useTrendingMovies from "../hooks/useTrendingMovies";
 import { TrendingMoviesSkeleton } from "./TrendingMoviesSkeleton";
+import { useState } from "react";
+import MoviesOverview from "./MoviesOverview";
 
 const TrendingMoviesCard = () => {
   const { trendingMovies, error, isLoading } = useTrendingMovies();
+
+  const [id, setId] = useState(0);
+
+  const HandleClick = (movieId: number) => {
+    setId(movieId);
+  };
+
+  const CloseOverview = () => {
+    setId(0);
+  };
 
   return (
     <>
@@ -18,6 +30,9 @@ const TrendingMoviesCard = () => {
                 src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                 alt=""
                 className="w-full h-full rounded-t object-cover"
+                onClick={() => {
+                  HandleClick(movie.id);
+                }}
               />
             </div>
             <div className=" border  border-amber-50 w-44 h-20 rounded-b shadow-md">
@@ -28,6 +43,14 @@ const TrendingMoviesCard = () => {
                   : "Date not available"}
               </p>
             </div>
+            {id == movie.id && (
+              <MoviesOverview
+                onCloseOverView={CloseOverview}
+                overview={movie.overview}
+                image={movie.poster_path}
+                id={movie.id}
+              />
+            )}
           </div>
         ))}
       </div>
