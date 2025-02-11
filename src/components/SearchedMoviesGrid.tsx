@@ -1,9 +1,21 @@
 import moment from "moment";
 import useSearchMovies from "../hooks/useSearchMovies";
 import LoadingSpinner from "./LoadingSpinner";
+import { useState } from "react";
+import MoviesOverview from "./MoviesOverview";
 
 const SearchedMoviesGrid = () => {
   const { searchedMovies, error, isLoading } = useSearchMovies();
+
+  const [id, setId] = useState(0);
+
+  const HandleClick = (movieId: number) => {
+    setId(movieId);
+  };
+
+  const CloseOverview = () => {
+    setId(0);
+  };
 
   return (
     <>
@@ -22,6 +34,9 @@ const SearchedMoviesGrid = () => {
                 src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                 alt=""
                 className="w-full h-full rounded-t object-cover"
+                onClick={() => {
+                  HandleClick(movie.id);
+                }}
               />
             </div>
             <div className=" border  border-amber-50 w-44 h-20 rounded-b shadow-md">
@@ -32,6 +47,14 @@ const SearchedMoviesGrid = () => {
                   : "Date not available"}
               </p>
             </div>
+            {id == movie.id && (
+              <MoviesOverview
+                onCloseOverView={CloseOverview}
+                overview={movie.overview}
+                image={movie.poster_path}
+                id={movie.id}
+              />
+            )}
           </div>
         ))}
       </div>
