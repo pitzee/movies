@@ -24,7 +24,7 @@ const MovieGrid = () => {
       <div className="flex-grow grid grid-cols-1 lg:grid-cols-5 md:grid-cols-3 gap-4">
         {movies.map((movie) => (
           <div key={movie.id}>
-            <div className="flex flex-row h-60 w-44 rounded-xl">
+            <div className="flex flex-row h-60 w-44 rounded-xl ">
               <img
                 src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                 alt=""

@@ -1,3 +1,4 @@
+import Footer from "./components/Footer";
 import Herosection from "./components/Herosection";
 import Movies from "./components/Movies";
 import Navbar from "./components/Navbar";
@@ -12,6 +13,7 @@ const App = () => {
       <Herosection />
       <TrendingMovies />
       <Movies />
+      <Footer />
     </main>
   );
 };
