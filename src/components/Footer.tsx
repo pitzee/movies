@@ -6,7 +6,7 @@ const Footer = () => {
   };
   return (
     <div className=" bg-blue-950 text-white">
-      <div className="flex flex-col md:flex-row md:space-x-3  font-bold ">
+      <div className="flex flex-col md:flex-row md:space-x-3  font-bold justify-center ">
         <div className="pb-2 ml-2">
           <p className="text-2xl">THE BASICS</p>
           <p>About Movies</p>
