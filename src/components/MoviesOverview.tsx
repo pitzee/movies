@@ -11,7 +11,7 @@ const MoviesOverview = ({ overview, image, onCloseOverView, id }: Props) => {
   return (
     <div className="fixed inset-0 flex flex-col lg:flex-row lg:items-center lg:justify-center bg-black bg-opacity-50 z-50 p-4 gap-4">
       <IoMdClose
-        className="text-white text-2xl absolute top-4 right-4 z-60 cursor-pointer"
+        className="text-white text-2xl absolute top-4 right-4 z-60 cursor-pointer bg-red-500 rounded-2xl hover:translate-1"
         onClick={() => onCloseOverView(id)}
       />
       )
