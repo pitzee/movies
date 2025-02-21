@@ -5,7 +5,7 @@ import Tvshows from "../components/Tvshows";
 
 const router = createBrowserRouter([
   {
-    path: "/home",
+    path: "/",
     element: <App />,
   },
   {
