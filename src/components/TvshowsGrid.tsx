@@ -35,7 +35,7 @@ const TvshowsGrid = () => {
               />
             </div>
             <div className=" border  border-amber-50 w-44 h-20 rounded-b shadow-md">
-              <p className=" mt-3 font-bold">{tvshow.title}</p>
+              <p className=" mt-3 font-bold">{tvshow.original_name}</p>
               <p>
                 {tvshow.first_air_date
                   ? moment(tvshow.first_air_date).format("MMM DD, YYYY")

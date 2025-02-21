@@ -4,7 +4,7 @@ import apiClient from "../services/api-clients";
 interface Tvshow {
   id: number;
   backdrop_path: string;
-  original_title: string;
+  original_name: string;
   overview: string;
   popularity: string;
   poster_path: string;
