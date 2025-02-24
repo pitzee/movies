@@ -2,7 +2,11 @@ import { FaSearch } from "react-icons/fa";
 import { useSearchMoviesStore } from "../statemanagement/useSearchMoviesStore";
 import { useNavigate } from "react-router-dom";
 
-const Search = () => {
+interface Props {
+  isScrolled: boolean;
+}
+
+const Search = ({ isScrolled }: Props) => {
   const { searchText, setSearchText } = useSearchMoviesStore();
   const navigate = useNavigate();
 
@@ -15,7 +19,11 @@ const Search = () => {
   };
 
   return (
-    <div className="flex flex-row items-center  space-x-3 pl-10 pt-2">
+    <div
+      className={`flex flex-row items-center  space-x-3 pl-10 pt-2 ${
+        isScrolled ? "fixed top-0 z-50 shadow-md bg-white w-full" : "relative"
+      }`}
+    >
       <FaSearch />
       <input
         type="text"

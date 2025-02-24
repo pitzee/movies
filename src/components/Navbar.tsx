@@ -1,9 +1,17 @@
 import { Link } from "react-router-dom";
 import { GoHome } from "react-icons/go";
 
-const Navbar = () => {
+interface Props {
+  isScrolled: boolean;
+}
+
+const Navbar = ({ isScrolled }: Props) => {
   return (
-    <div className="flex items-center h-15 bg-blue-950 justify-between ">
+    <div
+      className={`flex items-center h-15 bg-blue-950 justify-between ${
+        isScrolled ? "-translate-y-full" : "translate-y-0"
+      } `}
+    >
       <Link to="/" className="flex flex-row items-center hover:translate-y-1">
         <GoHome className="text-white text-2xl" />
 
