@@ -25,23 +25,40 @@ interface FetchMoviesResponse {
 const useMovies = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [error, setError] = useState("");
-  const [isLoading, setIloading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+
+  const fetchMovies = async (pageNumber: number) => {
+    setIsLoading(true);
+    try {
+      const res = await apiClient.get<FetchMoviesResponse>("/movie/popular", {
+        params: { page: pageNumber },
+      });
+      setMovies((prevMovies) => [...prevMovies, ...res.data.results]);
+      setHasMore(res.data.page < res.data.total_pages);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An unknown error occured");
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    setIloading(true);
-    apiClient
-      .get<FetchMoviesResponse>("/movie/popular")
-      .then((res) => {
-        setMovies(res.data.results);
-        setIloading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setIloading(false);
-      });
-  }, []);
+    fetchMovies(page);
+  }, [page]);
 
-  return { movies, error, isLoading };
+  const loadMore = () => {
+    if (hasMore) {
+      setPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  return { movies, error, isLoading, loadMore, hasMore };
 };
 
 export default useMovies;
