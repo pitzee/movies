@@ -22,7 +22,7 @@ const TrendingMoviesCard = () => {
     <>
       {isLoading && <TrendingMoviesSkeleton />}
       {error && <p>{error}</p>}
-      <div className="flex flex-row gap-4 overflow-x-auto overflow-y-hidden ">
+      <div className="flex flex-row gap-4 overflow-x-auto overflow-y-hidden pl-2 pr-2 ">
         {trendingMovies.map((movie) => (
           <div key={movie.id}>
             <div className="flex flex-row h-60 w-44 rounded-xl">
