@@ -17,14 +17,12 @@ const MovieGrid = () => {
     setId(0);
   };
 
-  // ✅ Fix: Use IntersectionObserver for Infinite Scroll
   useEffect(() => {
     if (!observerRef.current) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && hasMore && !isLoading) {
-          console.log("Reached bottom, loading more movies...");
           loadMore(); // Load more movies when bottom is reached
         }
       },
@@ -41,7 +39,7 @@ const MovieGrid = () => {
       {isLoading && <MoviesSkeleton />}
       {error && <p className="text-red-500">{error}</p>}
 
-      <div className="flex-grow grid grid-cols-1 lg:grid-cols-5 md:grid-cols-3 gap-4">
+      <div className="flex-grow grid grid-cols-2 pl-2 lg:grid-cols-5 md:grid-cols-3 gap-4">
         {movies.map((movie, index) => (
           <div key={`${movie.id}-${index}`}>
             <div className="flex flex-row h-60 w-44 rounded-xl">

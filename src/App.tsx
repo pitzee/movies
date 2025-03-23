@@ -21,13 +21,12 @@ const App = () => {
         setIsScrolled(false);
       }
 
-      // ✅ Fix: Correct infinite scroll trigger
+      //infinite scroll trigger
       if (
         window.innerHeight + window.scrollY >=
         document.documentElement.scrollHeight - 100
       ) {
         if (!isLoading && hasMore) {
-          console.log("Loading more movies...");
           loadMore();
         }
       }

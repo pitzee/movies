@@ -52,12 +52,10 @@ const useMovies = () => {
     [isLoading]
   );
 
-  // ✅ Fix: Only fetch movies on mount
   useEffect(() => {
     fetchMovies(1);
   }, []);
 
-  // ✅ Fix: Fetch movies when page increases
   useEffect(() => {
     if (page > 1) {
       fetchMovies(page);
