@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import moment from "moment";
 import useMovies from "../hooks/useMovies";
 import MoviesSkeleton from "./MoviesSkeleton";
 import MoviesOverview from "./MoviesOverview";
 
 const MovieGrid = () => {
-  const { movies, error, isLoading, loadMore, hasMore } = useMovies();
+  const { movies, error, isLoading, hasMore, loadMore } = useMovies();
   const [id, setId] = useState(0);
+  const observerRef = useRef<HTMLDivElement | null>(null); // Ref for infinite scroll trigger
 
   const handleClick = (movieId: number) => {
     setId(movieId);
@@ -16,37 +17,43 @@ const MovieGrid = () => {
     setId(0);
   };
 
+  // ✅ Fix: Use IntersectionObserver for Infinite Scroll
   useEffect(() => {
-    const handleScroll = () => {
-      if (
-        window.innerHeight + document.documentElement.scrollTop >=
-        document.documentElement.offsetHeight - 100
-      ) {
-        loadMore();
-      }
-    };
+    if (!observerRef.current) return;
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [loadMore]);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore && !isLoading) {
+          console.log("Reached bottom, loading more movies...");
+          loadMore(); // Load more movies when bottom is reached
+        }
+      },
+      { threshold: 1.0 } // Fires when the element is fully in view
+    );
+
+    observer.observe(observerRef.current);
+
+    return () => observer.disconnect(); // Cleanup observer on unmount
+  }, [hasMore, isLoading, loadMore]);
 
   return (
     <>
       {isLoading && <MoviesSkeleton />}
-      {error && <p>{error}</p>}
+      {error && <p className="text-red-500">{error}</p>}
+
       <div className="flex-grow grid grid-cols-1 lg:grid-cols-5 md:grid-cols-3 gap-4">
         {movies.map((movie, index) => (
           <div key={`${movie.id}-${index}`}>
             <div className="flex flex-row h-60 w-44 rounded-xl">
               <img
                 src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                alt=""
-                className="w-full h-full rounded-t object-cover"
+                alt={movie.title}
+                className="w-full h-full rounded-t object-cover cursor-pointer"
                 onClick={() => handleClick(movie.id)}
               />
             </div>
-            <div className="border border-amber-50 w-44 h-20 rounded-b shadow-md">
-              <p className="mt-3 font-bold">{movie.title}</p>
+            <div className="border border-amber-50 w-44 h-20 rounded-b shadow-md p-2">
+              <p className="mt-1 font-bold">{movie.title}</p>
               <p>
                 {movie.release_date
                   ? moment(movie.release_date).format("MMM DD, YYYY")
@@ -64,7 +71,13 @@ const MovieGrid = () => {
           </div>
         ))}
       </div>
-      {isLoading && hasMore && <p>Loading more movies...</p>}
+
+      {/* 👇 Invisible div to trigger infinite scroll */}
+      <div ref={observerRef} className="h-10" />
+
+      {isLoading && hasMore && (
+        <p className="text-center">Loading more movies...</p>
+      )}
     </>
   );
 };

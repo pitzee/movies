@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import apiClient from "../services/api-clients";
 import { useSearchMoviesStore } from "../statemanagement/useSearchMoviesStore";
 
@@ -27,29 +27,61 @@ const useSearchMovies = () => {
   const { searchText } = useSearchMoviesStore();
   const [searchedMovies, setSearchedMovies] = useState<Movie[]>([]);
   const [error, setError] = useState("");
-  const [isLoading, setIloading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
+  // Function to fetch movies (supports pagination)
+  const fetchSearchedMovies = useCallback(
+    async (pageNumber: number) => {
+      if (!searchText.trim()) return; // Prevent empty searches
+      if (isLoading) return; // Avoid multiple API calls
+
+      setIsLoading(true);
+      try {
+        const res = await apiClient.get<FetchMoviesResponse>("/search/movie", {
+          params: { query: searchText, page: pageNumber },
+        });
+
+        setSearchedMovies((prevMovies) =>
+          pageNumber === 1
+            ? res.data.results
+            : [...prevMovies, ...res.data.results]
+        );
+        setHasMore(res.data.page < res.data.total_pages);
+      } catch (err) {
+        setError(
+          err instanceof Error ? err.message : "An unknown error occurred"
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [searchText, isLoading]
+  );
+
+  // ✅ Fetch movies when `searchText` changes
   useEffect(() => {
-    if (!searchText) return;
-
-    setIloading(true);
-    apiClient
-      .get<FetchMoviesResponse>("/search/movie", {
-        params: {
-          query: searchText,
-        },
-      })
-      .then((res) => {
-        setSearchedMovies(res.data.results);
-        setIloading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setIloading(false);
-      });
+    setSearchedMovies([]); // Reset results for new search
+    setPage(1);
+    fetchSearchedMovies(1);
   }, [searchText]);
 
-  return { searchedMovies, error, isLoading };
+  // ✅ Fetch more movies when `page` updates
+  useEffect(() => {
+    if (page > 1) {
+      fetchSearchedMovies(page);
+    }
+  }, [page]);
+
+  // ✅ Load more movies when user scrolls down
+  const loadMore = () => {
+    if (!isLoading && hasMore) {
+      setPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  return { searchedMovies, error, isLoading, loadMore, hasMore };
 };
 
 export default useSearchMovies;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import apiClient from "../services/api-clients";
 
 interface Movie {
@@ -29,31 +29,43 @@ const useMovies = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
-  const fetchMovies = async (pageNumber: number) => {
-    setIsLoading(true);
-    try {
-      const res = await apiClient.get<FetchMoviesResponse>("/movie/popular", {
-        params: { page: pageNumber },
-      });
-      setMovies((prevMovies) => [...prevMovies, ...res.data.results]);
-      setHasMore(res.data.page < res.data.total_pages);
-    } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("An unknown error occured");
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const fetchMovies = useCallback(
+    async (pageNumber: number) => {
+      if (isLoading) return; // Prevent duplicate calls while loading
 
+      setIsLoading(true);
+      try {
+        const res = await apiClient.get<FetchMoviesResponse>("/movie/popular", {
+          params: { page: pageNumber },
+        });
+
+        setMovies((prevMovies) => [...prevMovies, ...res.data.results]);
+        setHasMore(res.data.page < res.data.total_pages);
+      } catch (err) {
+        setError(
+          err instanceof Error ? err.message : "An unknown error occurred"
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [isLoading]
+  );
+
+  // ✅ Fix: Only fetch movies on mount
   useEffect(() => {
-    fetchMovies(page);
+    fetchMovies(1);
+  }, []);
+
+  // ✅ Fix: Fetch movies when page increases
+  useEffect(() => {
+    if (page > 1) {
+      fetchMovies(page);
+    }
   }, [page]);
 
   const loadMore = () => {
-    if (hasMore) {
+    if (!isLoading && hasMore) {
       setPage((prevPage) => prevPage + 1);
     }
   };

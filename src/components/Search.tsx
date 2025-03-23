@@ -1,12 +1,10 @@
 import { FaSearch } from "react-icons/fa";
 import { useSearchMoviesStore } from "../statemanagement/useSearchMoviesStore";
 import { useNavigate } from "react-router-dom";
+import { useScrollStore } from "../statemanagement/useScrollStore";
 
-interface Props {
-  isScrolled: boolean;
-}
-
-const Search = ({ isScrolled }: Props) => {
+const Search = () => {
+  const { isScrolled } = useScrollStore();
   const { searchText, setSearchText } = useSearchMoviesStore();
   const navigate = useNavigate();
 

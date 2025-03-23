@@ -1,11 +1,10 @@
 import { Link } from "react-router-dom";
 import { GoHome } from "react-icons/go";
+import { useScrollStore } from "../statemanagement/useScrollStore";
 
-interface Props {
-  isScrolled: boolean;
-}
+const Navbar = () => {
+  const { isScrolled } = useScrollStore();
 
-const Navbar = ({ isScrolled }: Props) => {
   return (
     <div
       className={`flex items-center h-15 bg-blue-950 justify-between ${
