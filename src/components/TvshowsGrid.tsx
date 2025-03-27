@@ -21,7 +21,7 @@ const TvshowsGrid = () => {
     <>
       {isLoading && <MoviesSkeleton />}
       {error && <p>{error}</p>}
-      <div className="flex-grow grid grid-cols-1 lg:grid-cols-5 md:grid-cols-3 gap-4 ">
+      <div className="flex-grow grid grid-cols-2 lg:grid-cols-5 md:grid-cols-3 gap-4 ">
         {tvshows.map((tvshow) => (
           <div key={tvshow.id}>
             <div className="flex flex-row h-60 w-44 rounded-xl ">
