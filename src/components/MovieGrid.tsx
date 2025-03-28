@@ -38,7 +38,7 @@ const MovieGrid = () => {
     <>
       {isLoading && <MoviesSkeleton />}
       {error && <p className="text-red-500">{error}</p>}
-
+      <p className="text-3xl font-bold text-black mb-2">Popular movies</p>
       <div className="flex-grow grid grid-cols-2 pl-2 lg:grid-cols-5 md:grid-cols-3 gap-4">
         {movies.map((movie, index) => (
           <div key={`${movie.id}-${index}`}>
